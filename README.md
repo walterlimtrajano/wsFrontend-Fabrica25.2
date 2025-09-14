@@ -37,7 +37,7 @@ Um aplicativo Next.js que lista Pokémons usando a PokeAPI, com página de detal
 ## 🔗 Deploy
 
 Aplicação hospedada no Vercel:  
-[vercel.com/.../ws-frontend-fabrica25-2](https://vercel.com/walterlimtrajanos-projects/ws-frontend-fabrica25-2/A8YPJ21W7dQdCquDtM5RbxYhTxdp)  
+[vercel.com/.../ws-frontend-fabrica25-2](https://ws-frontend-fabrica25-2-jade.vercel.app/)  
 (Ver detalhes do deployment) :contentReference[oaicite:0]{index=0}
 
 ---
