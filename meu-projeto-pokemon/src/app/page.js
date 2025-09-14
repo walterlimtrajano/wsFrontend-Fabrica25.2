@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [pokemons, setPokemons] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("grid");
+
   useEffect(() => {
     async function fetchPokemons() {
       const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10277");
@@ -84,9 +86,10 @@ export default function Home() {
           }
         >
           {filtered.map((pokemon) => (
-            <div
+            <Link
+              href={`/detalhes/${String(pokemon.id).padStart(3, "0")}`}
               key={pokemon.id}
-              className="border p-4 rounded shadow-md text-center bg-white"
+              className="border p-4 rounded shadow-md text-center bg-white hover:bg-gray-100 transition"
             >
               <h2 className="text-xl font-semibold mb-2">
                 #{String(pokemon.id).padStart(3, "0")} -{" "}
@@ -97,7 +100,7 @@ export default function Home() {
                 alt={pokemon.name}
                 className="mx-auto w-24 h-24"
               />
-            </div>
+            </Link>
           ))}
         </div>
       )}
