@@ -9,7 +9,7 @@ async function getPokemon(id) {
 
 
 export default async function PokemonDetalhes({ params }) {
-  const { id } = params;
+  const { id } = await params;
   const data = await getPokemon(id);
 
   const tipos = data.types.map((typeInfo) => typeInfo.type.name);
