@@ -1,41 +1,47 @@
-import Header from './components/Header'
-import Footer from './components/Footer'
+"use client";
+import React, { useEffect, useState } from 'react';
 
-async function getPokemon() {
-  const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10')
+export default function Home() {
+  const [pokemons, setPokemons] = useState([]);
 
-  if (!res.ok) {
-    throw new Error('Falha ao buscar dados da PokéAPI')
-  }
+  useEffect(() => {
+    async function fetchPokemons() {
+      
+      const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=20');
+      const data = await response.json();
 
-  return res.json()
-}
+      
+      const detailedPokemons = await Promise.all(
+        data.results.map(async (pokemon) => {
+          const res = await fetch(pokemon.url);
+          const details = await res.json();
+          return {
+            id: details.id,
+            name: details.name,
+            image: details.sprites.front_default,
+          };
+        })
+      );
 
-export default async function HomePage() {
-  const data = await getPokemon()
-  const pokemons = data.results
+      setPokemons(detailedPokemons);
+    }
+
+    fetchPokemons();
+  }, []);
 
   return (
-    <>
-      <Header />
-      <main className="p-8 pb-20">
-        <h1 className="text-3xl font-bold mb-6">Lista de Pokémons</h1>
-        <ul className="space-y-2">
-          {pokemons.map((pokemon, index) => (
-            <li key={index}>
-              <a
-                href={pokemon.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-700 hover:underline"
-              >
-                {pokemon.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </main>
-      <Footer />
-    </>
-  )
+    <div>
+      <h1>Lista de Pokémons</h1>
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+        {pokemons.map((pokemon) => (
+          <li key={pokemon.id} style={{ marginBottom: '20px' }}>
+            <h2>
+              #{String(pokemon.id).padStart(3, '0')} - {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+            </h2>
+            <img src={pokemon.image} alt={pokemon.name} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
