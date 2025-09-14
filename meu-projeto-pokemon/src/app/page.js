@@ -6,7 +6,7 @@ export default function Home() {
   const [pokemons, setPokemons] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [viewMode, setViewMode] = useState("grid");
   useEffect(() => {
     async function fetchPokemons() {
       const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
@@ -42,11 +42,15 @@ export default function Home() {
     e.preventDefault();
   };
 
+  const toggleViewMode = () => {
+    setViewMode(viewMode === "grid" ? "list" : "grid");
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4">Lista de Pokémons</h1>
 
-      <form onSubmit={handleSearch} className="mb-6">
+      <form onSubmit={handleSearch} className="mb-4">
         <input
           type="text"
           placeholder="Buscar Pokémon..."
@@ -62,20 +66,40 @@ export default function Home() {
         </button>
       </form>
 
+      <button
+        onClick={toggleViewMode}
+        className="mb-6 bg-gray-700 text-white px-4 py-2 rounded"
+      >
+        Alternar Visualização ({viewMode === "grid" ? "Grade" : "Lista"})
+      </button>
+
       {filtered.length === 0 ? (
         <p className="text-red-600">Nenhum Pokémon encontrado.</p>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <div
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6"
+              : "flex flex-col gap-6"
+          }
+        >
           {filtered.map((pokemon) => (
-            <li key={pokemon.id} className="mb-6">
-              <h2 className="text-xl font-semibold">
+            <div
+              key={pokemon.id}
+              className="border p-4 rounded shadow-md text-center bg-white"
+            >
+              <h2 className="text-xl font-semibold mb-2">
                 #{String(pokemon.id).padStart(3, "0")} -{" "}
                 {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
               </h2>
-              <img src={pokemon.image} alt={pokemon.name} />
-            </li>
+              <img
+                src={pokemon.image}
+                alt={pokemon.name}
+                className="mx-auto w-24 h-24"
+              />
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
