@@ -32,8 +32,8 @@ export default async function PokemonDetalhes({ params }) {
         <li><strong>Experiência Base:</strong> {data.base_experience}</li>
       </ul>
 
-      <a href="/" className="inline-block mt-6 text-blue-600 underline">
-        ← Voltar para a lista
+      <a href="/" className="bg-blue-600 text-white px-4 py-2 rounded">
+        Voltar para a lista
       </a>
     </div>
   );
