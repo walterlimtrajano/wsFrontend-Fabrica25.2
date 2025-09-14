@@ -9,7 +9,7 @@ export default function Home() {
   const [viewMode, setViewMode] = useState("grid");
   useEffect(() => {
     async function fetchPokemons() {
-      const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+      const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10277");
       const data = await response.json();
 
       const detailedPokemons = await Promise.all(
